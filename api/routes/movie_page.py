@@ -23,7 +23,7 @@ def getMovie(id):
     id = int(id)
     db = get_db()
     movies_repo = MovieRepository(db)
-    found_movie = movies_repo.find_movie_by_id(id, "Movie_Heros").__dict__
+    found_movie = movies_repo.find_movie_by_id(id, "tmdbMovies").__dict__
     ratings = RatingRepository(db).all_ratings()
 
     X, user_mapper, movie_mapper, user_inv_mapper, movie_inv_mapper = create_matrix(ratings)
@@ -36,7 +36,7 @@ def getMovie(id):
     found_movie["similar"] = []
 
     for id in similar_ids:
-        similar_movie = movies_repo.find_movie_by_id(int(id), "Movie_Heros").__dict__
+        similar_movie = movies_repo.find_movie_by_id(int(id), "tmdbMovies").__dict__
         found_movie["similar"].append(similar_movie)
 
     return jsonify(found_movie)

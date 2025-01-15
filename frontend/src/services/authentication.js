@@ -32,11 +32,13 @@ export const signup = async (fullName, email, password) => {
 };
 
 export const login = async (email, password) => {
+    console.log(`${BACKEND_URL}`);
     const payload = {
     email: email,
     password: password,
     };
 
+    console.log("We're here");
     const requestOptions = {
     method: "POST",
     headers: {

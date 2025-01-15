@@ -2,7 +2,7 @@ from app import app
 from flask import request, jsonify
 from lib.user_repository import *
 from lib.user import User
-import lib.database_connection as database_connection
+from lib.database_connection import get_db
 
 @app.route("/login", methods=["POST"])
 def login():
@@ -14,9 +14,10 @@ def login():
     if not email or not password:
         return jsonify({'error': 'Please provide email, and password'}), 400
 
-    user_repo = UserRepository(connection=database_connection)
+    db = get_db()
+    user_repo = UserRepository(db)
 
     user_check = user_repo.user_exists(email,password)
-    
+
     return user_check
-    
+

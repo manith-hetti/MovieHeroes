@@ -7,9 +7,9 @@ from lib.database_connection import get_db
 
 @app.route("/landing-page", methods=["GET"])
 def get_top_movies():
+    print("We're in the landing page!")
     db = get_db()
     movie_repo = MovieRepository(db)
     top_movies = movie_repo.find_top_movies(12)
-    print(top_movies)
     return top_movies
 

@@ -6,8 +6,8 @@ from lib.token import *
 from bson import ObjectId
 
 class UserRepository():
-    def __init__(self, connection):
-        self.db = get_db()
+    def __init__(self, db):
+        self.db = db
         self.user_details_errors = {'password': "", 'email': "" , "login" : ""}
 
     #Create a new user
@@ -25,10 +25,12 @@ class UserRepository():
             'password': hashed_password.decode("utf-8") ,
             'userId': next_user_id,
             'avatar' : "src/assets/default_pic.png"
-        }  
+        }
         result = self.db[table_name].insert_one(user_data)
+        print("Table created")
         user.id = result.inserted_id
         user.password = hashed_password.decode("utf-8")
+        # Why are we returning this user? - Manith
         return user
 
     #Checks if the user already exists in our db
@@ -41,6 +43,7 @@ class UserRepository():
 
 #Check if the password already exists in our DB
     def user_exists(self,email, password):
+        print("We're checking if user exists")
         user = self.db.users.find_one({'email': email})
 
         if not user:
@@ -52,6 +55,7 @@ class UserRepository():
         else :
             user_id_str = str(user['_id'])
             token = generate_token(user_id_str)
+            print("we have the token")
             return jsonify({"token": token, "message": "OK", "userId": str(user['_id']),"full_name": user['full_name'], "email": user['email'], "user_id": user["userId"]}), 201
             # James: Added in full_name and email to JSON to be able to use for "Myprofile" page
 
@@ -67,7 +71,7 @@ class UserRepository():
         return found_user
 
     def update_avatar_by_id(self,id,avatar, users = "users"):
-        users = self.db[users]
+        users = self.db["users"]
         result = users.update_one(
             {'_id': ObjectId(id)},
             {'$set': {'avatar': avatar}}
