@@ -8,7 +8,6 @@ import "./SignupPage.css";
 import Navbar from "../../Components/Navbar";
 import BackdropSlider from "../../Components/BackdropSlider/BackdropSlider"; // Import the BackdropSlider component
 
-
 const SignupPage = () => {
 const [fullName, setFullName] = useState("");
 const [email, setEmail] = useState("");
@@ -29,11 +28,11 @@ const navigate = useNavigate();
         setEmail(event.target.value);
     };
 
-    const handleBlur = () => { 
+    const handleBlur = () => {
         setIsFocused(false);
         const errors = handleErrors(password, email)
         setUserErrors(()=>errors)
-    }; 
+    };
 
     const handleSubmit = async (event) => {
         event.preventDefault();

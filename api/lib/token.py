@@ -14,6 +14,7 @@ def generate_token(user_id):
         'exp': datetime.datetime.now(datetime.UTC) + datetime.timedelta(minutes=10)  # Token expires in 10 minutes
     }
     token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+    print("We got this far in generating a token")
     return token
 
 def decode_token(token):

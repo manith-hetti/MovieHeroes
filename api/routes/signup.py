@@ -2,7 +2,7 @@ from app import app
 from flask import request, jsonify
 from lib.user_repository import *
 from lib.user import User
-import lib.database_connection as database_connection
+from lib.database_connection import get_db
 
 @app.route("/signup", methods=["POST"])
 def signup():
@@ -14,7 +14,8 @@ def signup():
     if not full_name or not email or not password :
         return jsonify({'error': 'Please provide full name, email, and password'}), 400
 
-    user_repo = UserRepository(connection=database_connection)
+    db = get_db()
+    user_repo = UserRepository(db)
 
     email_check = user_repo.email_exists(email)
 

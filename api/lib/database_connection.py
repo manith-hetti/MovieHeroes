@@ -11,7 +11,6 @@ def get_db():
     # Set the Stable API version when creating a new client
     client = MongoClient(uri, server_api=ServerApi('1'))
 
-    db = client["Movies"]
+    db = client["MovieHeroesTest"]
 
     return db
-
